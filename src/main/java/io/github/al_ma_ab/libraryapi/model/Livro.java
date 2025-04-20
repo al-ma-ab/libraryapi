@@ -3,6 +3,7 @@ package io.github.al_ma_ab.libraryapi.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.sql.DataSource;
 import java.math.BigDecimal;
@@ -12,7 +13,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "livro")
 @Data // Lombok: gera automaticamente getters, setters, toString, equals e hashCode para todos os campos da classe.
-@AllArgsConstructor
+@ToString(exclude = "autor")
 public class Livro {
 
 
@@ -28,7 +29,7 @@ public class Livro {
     private String titulo;
 
     @Column(name = "data_publicacao", nullable = false)
-    private LocalDate data_publicacao;
+    private LocalDate dataPublicacao;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "genero", length = 30, nullable = false )
@@ -38,7 +39,10 @@ public class Livro {
     private BigDecimal preco;
     //private BigDecimal;
 
-    @ManyToOne //relacionamento muitos para um
+    @ManyToOne(
+    //        cascade = CascadeType.ALL
+            fetch = FetchType.LAZY
+    )
     @JoinColumn(name = "id_autor")
     private Autor autor;
 }

@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@ToString
+@ToString(exclude = {"livros"})
 public class Autor {
 
     @Id
@@ -33,7 +33,7 @@ public class Autor {
     private String nacionalidade;
 
     //@OneToMany(mappedBy = "autor")
-    @Transient
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY) //QUANDO EU APAGO UM LIVRO POR EXEMPOO ELE APAGA TAMBEMS OS AUTORES
     private List<Livro> livros;
 /*
     public String getNome() {
